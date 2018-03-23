@@ -88,7 +88,10 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       var block = getBlock(decodeURI($(this).attr("value")));
       
       var name = block['name'];
-      var getter = block['getter'] || true;
+      var getter = block['getter'];
+      if (getter !== true && getter !== false) {
+        getter = true;
+      }
       var divId = 'property_'+(getter?'getter':'setter')+'_'+name;
   
       $(this).attr('id', divId).show();

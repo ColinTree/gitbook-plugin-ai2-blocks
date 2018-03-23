@@ -1,6 +1,6 @@
 {
     "name": "gitbook-plugin-ai2-blocks",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "A plugin to show blocks with gitbook",
     "engines": {
         "gitbook": ">=3.0.0"
