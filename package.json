@@ -44,5 +44,6 @@
               "description": "text \"set\" for properties"
             }
         }
-    }
+    },
+    "readme": "README.md"
 }
