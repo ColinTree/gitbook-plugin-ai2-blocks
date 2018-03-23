@@ -1,0 +1,48 @@
+{
+    "name": "gitbook-plugin-ai2-blocks",
+    "version": "0.0.1",
+    "description": "A plugin to show blocks with gitbook",
+    "engines": {
+        "gitbook": ">=3.0.0"
+    },
+    "author": "ColinTree",
+    "maintainers": [
+        {
+          "name": "ColinTree",
+          "email": "502470184@qq.com"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ColinTree/gitbook-plugin-ai2-blocks.git"
+    },
+    "main": "index.js",
+    "license": "Apache 2",
+    "bugs": {
+        "url": "https://github.com/ColinTree/gitbook-plugin-ai2-blocks/issues"
+    },
+    "gitbook": {
+        "property": {
+            "text_when": {
+              "type": "string",
+              "default": "when",
+              "description": "text \"when\" for events"
+            },
+            "text_do": {
+              "type": "string",
+              "default": "do",
+              "description": "text \"do\" for events"
+            },
+            "text_call": {
+              "type": "string",
+              "default": "call",
+              "description": "text \"call\" for methods"
+            },
+            "text_set": {
+              "type": "string",
+              "default": "set",
+              "description": "text \"set\" for properties"
+            }
+        }
+    }
+}

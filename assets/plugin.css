@@ -1,0 +1,27 @@
+.ai2-block {
+    display: none;
+    width: 300px;
+    height: 100px;
+}
+.blocklyMainBackground {
+    stroke: none;
+}
+/**
+ * parameter for event
+ */
+.blocklyFieldParameter>rect {
+  fill: rgb(222, 143, 108);
+  fill-opacity: 1.0;
+  stroke-width: 2;
+  stroke: rgb(231, 175, 150);
+}
+.blocklyFieldParameter>text {
+    stroke-width: 1;
+    fill: #000;
+}
+.blocklyFieldParameter:hover>rect {
+    stroke-width: 2;
+    stroke: rgb(231,175,150);
+    fill: rgb(231,175,150);
+    fill-opacity: 1.0;
+}
