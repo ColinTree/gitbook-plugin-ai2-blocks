@@ -6,7 +6,6 @@ const COLOUR_GET = '#439970';  // [67, 153, 112]
 const COLOUR_SET = '#266643';  // [38, 102, 67]
 
 var ComponentName = "Component1";
-var ComponentDropDown = null;
 
 var TEXT_WHEN = 'when';
 var TEXT_DO = 'do';
@@ -22,7 +21,6 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
     TEXT_CALL = conf['ai2-blocks']['text_call'] || TEXT_CALL;
     TEXT_SET = conf['ai2-blocks']['text_set'] || TEXT_SET;
     
-    ComponentDropDown = new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]);
     // METHOD
     $('div[ai2-method]').each(function(){
       var block = getBlock(decodeURI($(this).attr("value")));
@@ -35,7 +33,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
 
       Blockly.Blocks['dynamicCreated_'+divId] = {
         init: function() {
-          this.appendDummyInput().appendField(TEXT_CALL).appendField(ComponentDropDown, 'COMPONENT_SELECTOR').appendField('.'+name);
+          this.appendDummyInput().appendField(TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
           for (var i=0; i<arg.length; i++) {
             this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(arg[i]);
           }
@@ -63,7 +61,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
   
       Blockly.Blocks['dynamicCreated_'+divId] = {
         init: function() {
-          this.appendDummyInput('').appendField(TEXT_WHEN).appendField(ComponentDropDown, "COMPONENT_SELECTOR").appendField('.' + name);
+          this.appendDummyInput('').appendField(TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
           if (arg.length > 0) {
             var paramInput = this.appendDummyInput('PARAMETERS').appendField(" ").setAlign(Blockly.ALIGN_LEFT);
             for (var i=0; i<arg.length; i++) {
@@ -107,7 +105,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
             this.setPreviousStatement(true, null);
             this.setNextStatement(true, null);
           }
-          input.appendField(ComponentDropDown, "NAME")
+          input.appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "NAME")
               .appendField(".")
               .appendField(new Blockly.FieldDropdown([[name, "OPTIONNAME"]]), "NAME2");
           this.setColour(getter ? COLOUR_GET : COLOUR_SET);
@@ -134,7 +132,6 @@ function getBlock(json) {
   }
   if (typeof(blockData['componentName']) != "undefined" && blockData['componentName'].length > 0) {
     ComponentName = blockData.componentName;
-    ComponentDropDown = new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]);
   }
   return blockData;
 }
