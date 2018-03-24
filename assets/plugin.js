@@ -12,6 +12,10 @@ var TEXT_DO = 'do';
 var TEXT_CALL = 'call';
 var TEXT_SET = 'set';
 
+// will be increased automatically by getBlock(json)
+var blockIndex = 0;
+var blockId = 'block0';
+
 require(['gitbook', 'jQuery'], function(gitbook, $) {
   
   gitbook.events.bind("start", function(e, config) {
@@ -28,11 +32,10 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       var name = block['name'];
       var arg = block['arg'] || [];
       var output = block['output']===true;
-      var divId = 'method_'+name;
 
-      $(this).attr('id', divId).show();
+      $(this).attr('id', blockId).show();
 
-      Blockly.Blocks['dynamicCreated_'+divId] = {
+      Blockly.Blocks['dynamicCreated_'+blockId] = {
         init: function() {
           this.appendDummyInput().appendField(TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
           for (var i=0; i<arg.length; i++) {
@@ -51,7 +54,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(divId).moveBy(output?8:0, 0);
+      newBlockAndWorkspace(blockId).moveBy(output?8:0, 0);
     });
 
     // EVENT
@@ -60,11 +63,10 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       
       var name = block['name'];
       var arg = block['arg'] || [];
-      var divId = 'event_'+name;
   
-      $(this).attr('id', divId).show();
+      $(this).attr('id', blockId).show();
   
-      Blockly.Blocks['dynamicCreated_'+divId] = {
+      Blockly.Blocks['dynamicCreated_'+blockId] = {
         init: function() {
           this.appendDummyInput('').appendField(TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
           if (arg.length > 0) {
@@ -83,7 +85,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(divId);
+      newBlockAndWorkspace(blockId);
     });
   
     // PROPERTY
@@ -95,11 +97,10 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       if (getter !== true && getter !== false) {
         getter = true;
       }
-      var divId = 'property_'+(getter?'getter':'setter')+'_'+name;
   
-      $(this).attr('id', divId).show();
+      $(this).attr('id', blockId).show();
   
-      Blockly.Blocks['dynamicCreated_'+divId] = {
+      Blockly.Blocks['dynamicCreated_'+blockId] = {
         init: function() {
           var input;
           if (getter) {
@@ -119,7 +120,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(divId).moveBy((getter?8:0), 0);
+      newBlockAndWorkspace(blockId).moveBy((getter?8:0), 0);
     });
   });
 });
@@ -130,6 +131,8 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
  * @returns object or null
  */
 function getBlock(json) {
+  blockIndex++;
+  blockId = 'block' + blockIndex;
   var blockData = JSON.parse(json);
   if (typeof(blockData) != "object") {
     console.error("block info is not a json object");
