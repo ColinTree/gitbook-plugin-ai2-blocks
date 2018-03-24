@@ -1,5 +1,5 @@
 {
-    "author": "ColinTree",
+    "author": "ColinTree <502470184@qq.com>",
     "bugs": {
         "url": "https://github.com/ColinTree/gitbook-plugin-ai2-blocks/issues"
     },
@@ -9,25 +9,30 @@
     },
     "gitbook": {
         "property": {
-            "text_when": {
-              "type": "string",
-              "default": "when",
-              "description": "text \"when\" for events"
+            "text_call": {
+                "default": "call",
+                "description": "text \"call\" for methods",
+                "type": "string"
             },
             "text_do": {
-              "type": "string",
-              "default": "do",
-              "description": "text \"do\" for events"
-            },
-            "text_call": {
-              "type": "string",
-              "default": "call",
-              "description": "text \"call\" for methods"
+                "default": "do",
+                "description": "text \"do\" for events",
+                "type": "string"
             },
             "text_set": {
-              "type": "string",
-              "default": "set",
-              "description": "text \"set\" for properties"
+                "default": "set",
+                "description": "text \"set\" for properties",
+                "type": "string"
+            },
+            "text_when": {
+                "default": "when",
+                "description": "text \"when\" for events",
+                "type": "string"
+            },
+            "scale_level": {
+                "default": 1.0,
+                "description": "scale level for all blocks",
+                "type": "number"
             }
         }
     },
@@ -35,8 +40,8 @@
     "main": "index.js",
     "maintainers": [
         {
-          "name": "ColinTree",
-          "email": "502470184@qq.com"
+            "email": "502470184@qq.com",
+            "name": "ColinTree"
         }
     ],
     "name": "gitbook-plugin-ai2-blocks",
@@ -45,5 +50,5 @@
         "type": "git",
         "url": "git+https://github.com/ColinTree/gitbook-plugin-ai2-blocks.git"
     },
-    "version": "0.2.1"
+    "version": "0.3.1"
 }

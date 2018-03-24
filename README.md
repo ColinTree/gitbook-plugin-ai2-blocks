@@ -6,10 +6,11 @@ It is actually creating workspace for each block, and then resize the workspace 
 
 ## Plugin Config
 
-* **text_when** text `when` for events
-* **text_do**   text `do` for events
 * **text_call** text `call` for methods
+* **text_do**   text `do` for events
 * **text_set**  text `set` for properties
+* **text_when** text `when` for events
+* **scale_level** scale level for all blocks
 
 e.g.
 
@@ -21,10 +22,11 @@ e.g.
     ],
     "pluginsConfig": {
         "ai2-blocks": {
-            "text_when": "when",
-            "text_do": "do",
             "text_call": "call",
-            "text_set": "set"
+            "text_do": "do",
+            "text_set": "set",
+            "text_when": "when",
+            "scale_level": 0.9
         }
     }
 }
@@ -40,6 +42,8 @@ e.g.
 
 {% Ai2Method %}{"name":"MethodName2", "arg":["arg1","arg2"], "output":true}{% endAi2Method %}
 
+{% Ai2Method %}{"name":"MethodName2", "arg":["arg1","arg2"], "output":true, "scale":0.9}{% endAi2Method %}
+
 {% Ai2Event %}{"name":"EventName", "componentName":"compName2", "arg":["arg1","arg2"]}{% endAi2Event %}
 
 {% Ai2Property %}{"name":"PropertyName", "componentName":"compName3", "getter":true}{% endAi2Property %}
@@ -50,7 +54,3 @@ e.g.
 will be converted into:
 
 ![](example.png)
-
-## Further Plan
-
-* allowing scaling blocks

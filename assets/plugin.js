@@ -11,6 +11,7 @@ var TEXT_WHEN = 'when';
 var TEXT_DO = 'do';
 var TEXT_CALL = 'call';
 var TEXT_SET = 'set';
+var SCALE_LEVEL = 1;
 
 // will be increased automatically by getBlock(json)
 var blockIndex = 0;
@@ -24,6 +25,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
     TEXT_DO = conf['ai2-blocks']['text_do'] || TEXT_DO;
     TEXT_CALL = conf['ai2-blocks']['text_call'] || TEXT_CALL;
     TEXT_SET = conf['ai2-blocks']['text_set'] || TEXT_SET;
+    SCALE_LEVEL = conf['ai2-blocks']['scale_level'] || SCALE_LEVEL;
     
     // METHOD
     $('div[ai2-method]').each(function(){
@@ -32,6 +34,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       var name = block['name'];
       var arg = block['arg'] || [];
       var output = block['output']===true;
+      var scale = block['scale'] || SCALE_LEVEL;
 
       $(this).attr('id', blockId).show();
 
@@ -54,7 +57,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(blockId).moveBy(output?8:0, 0);
+      newBlockAndWorkspace(blockId, scale).moveBy(output?8:0, 0);
     });
 
     // EVENT
@@ -63,6 +66,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       
       var name = block['name'];
       var arg = block['arg'] || [];
+      var scale = block['scale'] || SCALE_LEVEL;
   
       $(this).attr('id', blockId).show();
   
@@ -85,7 +89,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(blockId);
+      newBlockAndWorkspace(blockId, scale);
     });
   
     // PROPERTY
@@ -97,6 +101,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       if (getter !== true && getter !== false) {
         getter = true;
       }
+      var scale = block['scale'] || SCALE_LEVEL;
   
       $(this).attr('id', blockId).show();
   
@@ -120,7 +125,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(blockId).moveBy((getter?8:0), 0);
+      newBlockAndWorkspace(blockId, scale).moveBy((getter?8:0), 0);
     });
   });
 });
@@ -144,19 +149,19 @@ function getBlock(json) {
   return blockData;
 }
 
-function newBlockAndWorkspace(id) {
+function newBlockAndWorkspace(id, scale) {
   var workspace = Blockly.inject(id, {
     toolbox: false,
     trashcan: false,
     readOnly: true,
-    scrollbars: false,
-    startScale: 0.5
+    scrollbars: false
   });
+  workspace.setScale(scale);
 
   var block = workspace.newBlock('dynamicCreated_'+id);
   block.initSvg();
   block.render();
-  
+
   var metrics = workspace.getMetrics();
   $("#"+id).height(metrics.contentHeight).width(metrics.contentWidth);
   Blockly.svgResize(workspace);
