@@ -27,6 +27,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       
       var name = block['name'];
       var arg = block['arg'] || [];
+      var output = block['output']===true;
       var divId = 'method_'+name;
 
       $(this).attr('id', divId).show();
@@ -38,15 +39,19 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
             this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(arg[i]);
           }
           this.setInputsInline(false);
-          this.setPreviousStatement(true, null);
-          this.setNextStatement(true, null);
+          if (output) {
+            this.setOutput(true, null);
+          } else {
+            this.setPreviousStatement(true, null);
+            this.setNextStatement(true, null);
+          }
           this.setColour(COLOUR_METHOD);
           this.setTooltip('');
           this.setHelpUrl('');
         }
       };
       
-      newBlockAndWorkspace(divId);
+      newBlockAndWorkspace(divId).moveBy(output?8:0, 0);
     });
 
     // EVENT
