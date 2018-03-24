@@ -34,18 +34,17 @@ e.g.
 
 ```markdown
 # test
-
 ---
 
 {% Ai2Method %}{"name":"MethodName", "componentName":"compName1", "arg":["arg1","arg2"]}{% endAi2Method %}
 
-{% Ai2Method %}{"name":"MethodName", "arg":["arg1","arg2"], "output":true}{% endAi2Method %}
+{% Ai2Method %}{"name":"MethodName2", "arg":["arg1","arg2"], "output":true}{% endAi2Method %}
 
 {% Ai2Event %}{"name":"EventName", "componentName":"compName2", "arg":["arg1","arg2"]}{% endAi2Event %}
 
 {% Ai2Property %}{"name":"PropertyName", "componentName":"compName3", "getter":true}{% endAi2Property %}
 
-{% Ai2Property %}{"name":"PropertyName", "getter":false}{% endAi2Property %}
+{% Ai2Property %}{"name":"PropertyName2", "getter":false}{% endAi2Property %}
 ```
 
 will be converted into:
