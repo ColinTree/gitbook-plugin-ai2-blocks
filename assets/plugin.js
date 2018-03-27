@@ -12,6 +12,10 @@ var CONF_TEXT_DO = 'do';
 var CONF_TEXT_CALL = 'call';
 var CONF_TEXT_SET = 'set';
 var CONF_SCALE_LEVEL = 1;
+var CONF_MARGIN_LEFT = 0;
+var CONF_MARGIN_TOP = 0;
+var CONF_MARGIN_RIGHT = 0;
+var CONF_MARGIN_BOTTOM = 0;
 
 // will be increased automatically by getBlock(json)
 var blockIndex = 0;
@@ -26,6 +30,10 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
     CONF_TEXT_CALL = conf['ai2-blocks']['text_call'] || CONF_TEXT_CALL;
     CONF_TEXT_SET = conf['ai2-blocks']['text_set'] || CONF_TEXT_SET;
     CONF_SCALE_LEVEL = conf['ai2-blocks']['scale_level'] || CONF_SCALE_LEVEL;
+    CONF_MARGIN_LEFT = conf['ai2-blocks']['margin_left'] || conf['ai2-blocks']['margin'] || CONF_MARGIN_LEFT;
+    CONF_MARGIN_TOP = conf['ai2-blocks']['margin_top'] || conf['ai2-blocks']['margin'] || CONF_MARGIN_TOP;
+    CONF_MARGIN_RIGHT = conf['ai2-blocks']['margin_right'] || conf['ai2-blocks']['margin'] || CONF_MARGIN_RIGHT;
+    CONF_MARGIN_BOTTOM = conf['ai2-blocks']['margin_bottom'] || conf['ai2-blocks']['margin'] || CONF_MARGIN_BOTTOM;
 
     render();
   });
@@ -45,6 +53,10 @@ function render() {
     var param = block['param'] || block['arg'] || [];
     var output = block['output']===true;
     var scale = block['scale'] || CONF_SCALE_LEVEL;
+    var margin_left = block['margin_left'] || block['margin'] || CONF_MARGIN_LEFT;
+    var margin_top = block['margin_top'] || block['margin'] || CONF_MARGIN_TOP;
+    var margin_right = block['margin_right'] || block['margin'] || CONF_MARGIN_RIGHT;
+    var margin_bottom = block['margin_bottom'] || block['margin'] || CONF_MARGIN_BOTTOM;
 
     $(this).attr('id', blockId).show();
 
@@ -67,7 +79,7 @@ function render() {
       }
     };
     
-    newBlockAndWorkspace(blockId, scale);
+    newBlockAndWorkspace(blockId, scale, margin_left, margin_top, margin_right, margin_bottom);
   });
 
   // EVENT
@@ -78,6 +90,10 @@ function render() {
     var name = block['name'];
     var param = block['param'] || block['arg'] || [];
     var scale = block['scale'] || CONF_SCALE_LEVEL;
+    var margin_left = block['margin_left'] || block['margin'] || CONF_MARGIN_LEFT;
+    var margin_top = block['margin_top'] || block['margin'] || CONF_MARGIN_TOP;
+    var margin_right = block['margin_right'] || block['margin'] || CONF_MARGIN_RIGHT;
+    var margin_bottom = block['margin_bottom'] || block['margin'] || CONF_MARGIN_BOTTOM;
 
     $(this).attr('id', blockId).show();
 
@@ -100,7 +116,7 @@ function render() {
       }
     };
     
-    newBlockAndWorkspace(blockId, scale);
+    newBlockAndWorkspace(blockId, scale, margin_left, margin_top, margin_right, margin_bottom);
   });
 
   // PROPERTY
@@ -114,6 +130,10 @@ function render() {
       getter = true;
     }
     var scale = block['scale'] || CONF_SCALE_LEVEL;
+    var margin_left = block['margin_left'] || block['margin'] || CONF_MARGIN_LEFT;
+    var margin_top = block['margin_top'] || block['margin'] || CONF_MARGIN_TOP;
+    var margin_right = block['margin_right'] || block['margin'] || CONF_MARGIN_RIGHT;
+    var margin_bottom = block['margin_bottom'] || block['margin'] || CONF_MARGIN_BOTTOM;
 
     $(this).attr('id', blockId).show();
 
@@ -137,7 +157,7 @@ function render() {
       }
     };
     
-    newBlockAndWorkspace(blockId, scale);
+    newBlockAndWorkspace(blockId, scale, margin_left, margin_top, margin_right, margin_bottom);
   });
 }
 
@@ -160,7 +180,7 @@ function getBlock(json) {
   return blockData;
 }
 
-function newBlockAndWorkspace(id, scale) {
+function newBlockAndWorkspace(id, scale, margin_left, margin_top, margin_right, margin_bottom) {
   var workspace = Blockly.inject(id, {
     toolbox: false,
     trashcan: false,
@@ -171,11 +191,13 @@ function newBlockAndWorkspace(id, scale) {
 
   var block = workspace.newBlock('dynamicCreated_'+id);
   block.initSvg();
-  block.moveBy(8, 0);
+  block.moveBy(8 + margin_left, margin_top);
   block.render();
 
   var metrics = workspace.getMetrics();
-  $("#"+id).height(metrics.contentHeight).width(metrics.contentWidth + 8);
+  $("#"+id)
+    .height(metrics.contentHeight + margin_top + margin_bottom)
+    .width(metrics.contentWidth + 8 + margin_left + margin_right);
   Blockly.svgResize(workspace);
   workspace.render();
 }

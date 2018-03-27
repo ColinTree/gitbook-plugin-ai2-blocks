@@ -40,6 +40,8 @@ e.g.
 
 {% Ai2Method %}{"name":"MethodName", "componentName":"compName1", "param":["param1","param2"]}{% endAi2Method %}
 
+{% Ai2Method %}{"name":"MethodName2", "param":["param1","param2"], "output":true, "margin_left":8}{% endAi2Method %}
+
 {% Ai2Method %}{"name":"MethodName2", "param":["param1","param2"], "output":true}{% endAi2Method %}
 
 {% Ai2Method %}{"name":"MethodName2", "param":["param1","param2"], "output":true, "scale":0.9}{% endAi2Method %}
