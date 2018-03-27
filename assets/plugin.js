@@ -7,11 +7,11 @@ const COLOUR_SET = '#266643';  // [38, 102, 67]
 
 var ComponentName = "Component1";
 
-var TEXT_WHEN = 'when';
-var TEXT_DO = 'do';
-var TEXT_CALL = 'call';
-var TEXT_SET = 'set';
-var SCALE_LEVEL = 1;
+var CONF_TEXT_WHEN = 'when';
+var CONF_TEXT_DO = 'do';
+var CONF_TEXT_CALL = 'call';
+var CONF_TEXT_SET = 'set';
+var CONF_SCALE_LEVEL = 1;
 
 // will be increased automatically by getBlock(json)
 var blockIndex = 0;
@@ -21,11 +21,11 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
   
   gitbook.events.bind("start", function(e, config) {
     var conf = config || {"ai2:blocks":{}};
-    TEXT_WHEN = conf['ai2-blocks']['text_when'] || TEXT_WHEN;
-    TEXT_DO = conf['ai2-blocks']['text_do'] || TEXT_DO;
-    TEXT_CALL = conf['ai2-blocks']['text_call'] || TEXT_CALL;
-    TEXT_SET = conf['ai2-blocks']['text_set'] || TEXT_SET;
-    SCALE_LEVEL = conf['ai2-blocks']['scale_level'] || SCALE_LEVEL;
+    CONF_TEXT_WHEN = conf['ai2-blocks']['text_when'] || CONF_TEXT_WHEN;
+    CONF_TEXT_DO = conf['ai2-blocks']['text_do'] || CONF_TEXT_DO;
+    CONF_TEXT_CALL = conf['ai2-blocks']['text_call'] || CONF_TEXT_CALL;
+    CONF_TEXT_SET = conf['ai2-blocks']['text_set'] || CONF_TEXT_SET;
+    CONF_SCALE_LEVEL = conf['ai2-blocks']['scale_level'] || CONF_SCALE_LEVEL;
 
     render();
   });
@@ -44,13 +44,13 @@ function render() {
     var name = block['name'];
     var param = block['param'] || block['arg'] || [];
     var output = block['output']===true;
-    var scale = block['scale'] || SCALE_LEVEL;
+    var scale = block['scale'] || CONF_SCALE_LEVEL;
 
     $(this).attr('id', blockId).show();
 
     Blockly.Blocks['dynamicCreated_'+blockId] = {
       init: function() {
-        this.appendDummyInput().appendField(TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
+        this.appendDummyInput().appendField(CONF_TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
         for (var i=0; i<param.length; i++) {
           this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(param[i]);
         }
@@ -77,20 +77,20 @@ function render() {
     
     var name = block['name'];
     var param = block['param'] || block['arg'] || [];
-    var scale = block['scale'] || SCALE_LEVEL;
+    var scale = block['scale'] || CONF_SCALE_LEVEL;
 
     $(this).attr('id', blockId).show();
 
     Blockly.Blocks['dynamicCreated_'+blockId] = {
       init: function() {
-        this.appendDummyInput('').appendField(TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
+        this.appendDummyInput('').appendField(CONF_TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
         if (param.length > 0) {
           var paramInput = this.appendDummyInput('PARAMETERS').appendField(" ").setAlign(Blockly.ALIGN_LEFT);
           for (var i=0; i<param.length; i++) {
             paramInput.appendField(new Blockly.FieldTextInput(param[i]), 'VAR'+i).appendField(" ");
           }
         }
-        this.appendStatementInput("DO").appendField(TEXT_DO);
+        this.appendStatementInput("DO").appendField(CONF_TEXT_DO);
         this.setInputsInline(false);
         this.setPreviousStatement(false, null);
         this.setNextStatement(false, null);
@@ -113,7 +113,7 @@ function render() {
     if (getter !== true && getter !== false) {
       getter = true;
     }
-    var scale = block['scale'] || SCALE_LEVEL;
+    var scale = block['scale'] || CONF_SCALE_LEVEL;
 
     $(this).attr('id', blockId).show();
 
@@ -124,7 +124,7 @@ function render() {
           input = this.appendDummyInput();
           this.setOutput(true, null);
         } else {
-          input = this.appendValueInput("NAME").appendField(TEXT_SET);
+          input = this.appendValueInput("NAME").appendField(CONF_TEXT_SET);
           this.setPreviousStatement(true, null);
           this.setNextStatement(true, null);
         }
