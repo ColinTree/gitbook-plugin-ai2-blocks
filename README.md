@@ -18,7 +18,7 @@ e.g.
 {
     "author": "Colintree <502470184@qq.com>",
     "plugins": [
-        "ai2-blocks@git+https://github.com/ColinTree/gitbook-plugin-ai2-blocks.git#1.0.0"
+        "ai2-blocks@git+https://github.com/ColinTree/gitbook-plugin-ai2-blocks.git"
     ],
     "pluginsConfig": {
         "ai2-blocks": {
