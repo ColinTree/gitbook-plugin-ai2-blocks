@@ -44,118 +44,90 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
 });
 
 function render() {
-  // METHOD
-  $('div[ai2-method]').filter("[not-rendered]").each(function(){
+  $('div[ai2-block]').filter("[not-rendered]").each(function(){
     $(this).removeAttr("not-rendered");
+
     var block = getBlock(decodeURI($(this).attr("value")));
     
+    // should be after getBlock(json) because blockId needs to be refreshed
+    $(this).attr('id', blockId).show();
+    
+    var type = $(this).attr("ai2-block");
     var name = block['name'];
-    var param = block['param'] || block['arg'] || [];
-    var output = block['output']===true;
     var scale = block['scale'] || CONF_SCALE_LEVEL;
     var margin_left = block['margin_left'] || block['margin'] || CONF_MARGIN_LEFT;
     var margin_top = block['margin_top'] || block['margin'] || CONF_MARGIN_TOP;
     var margin_right = block['margin_right'] || block['margin'] || CONF_MARGIN_RIGHT;
     var margin_bottom = block['margin_bottom'] || block['margin'] || CONF_MARGIN_BOTTOM;
 
-    $(this).attr('id', blockId).show();
-
-    Blockly.Blocks['dynamicCreated_'+blockId] = {
-      init: function() {
-        this.appendDummyInput().appendField(CONF_TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
-        for (var i=0; i<param.length; i++) {
-          this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(param[i]);
-        }
-        this.setInputsInline(false);
-        if (output) {
-          this.setOutput(true, null);
-        } else {
-          this.setPreviousStatement(true, null);
-          this.setNextStatement(true, null);
-        }
-        this.setColour(COLOUR_METHOD);
-        this.setTooltip('');
-        this.setHelpUrl('');
-      }
-    };
-    
-    newBlockAndWorkspace(blockId, scale, margin_left, margin_top, margin_right, margin_bottom);
-  });
-
-  // EVENT
-  $('div[ai2-event]').filter("[not-rendered]").each(function(){
-    $(this).removeAttr("not-rendered");
-    var block = getBlock(decodeURI($(this).attr("value")));
-    
-    var name = block['name'];
-    var param = block['param'] || block['arg'] || [];
-    var scale = block['scale'] || CONF_SCALE_LEVEL;
-    var margin_left = block['margin_left'] || block['margin'] || CONF_MARGIN_LEFT;
-    var margin_top = block['margin_top'] || block['margin'] || CONF_MARGIN_TOP;
-    var margin_right = block['margin_right'] || block['margin'] || CONF_MARGIN_RIGHT;
-    var margin_bottom = block['margin_bottom'] || block['margin'] || CONF_MARGIN_BOTTOM;
-
-    $(this).attr('id', blockId).show();
-
-    Blockly.Blocks['dynamicCreated_'+blockId] = {
-      init: function() {
-        this.appendDummyInput('').appendField(CONF_TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
-        if (param.length > 0) {
-          var paramInput = this.appendDummyInput('PARAMETERS').appendField(" ").setAlign(Blockly.ALIGN_LEFT);
+    // METHODS
+    if (type == 'method') {
+      var param = block['param'] || block['arg'] || [];
+      var output = block['output']===true;
+  
+      Blockly.Blocks['dynamicCreated_'+blockId] = {
+        init: function() {
+          this.appendDummyInput().appendField(CONF_TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
           for (var i=0; i<param.length; i++) {
-            paramInput.appendField(new Blockly.FieldTextInput(param[i]), 'VAR'+i).appendField(" ");
+            this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(param[i]);
           }
+          this.setInputsInline(false);
+          if (output) {
+            this.setOutput(true, null);
+          } else {
+            this.setPreviousStatement(true, null);
+            this.setNextStatement(true, null);
+          }
+          this.setColour(COLOUR_METHOD);
         }
-        this.appendStatementInput("DO").appendField(CONF_TEXT_DO);
-        this.setInputsInline(false);
-        this.setPreviousStatement(false, null);
-        this.setNextStatement(false, null);
-        this.setColour(COLOUR_EVENT);
-        this.setTooltip('');
-        this.setHelpUrl('');
+      };
+    
+    // EVENTS
+    } else if (type == 'event') {
+      var param = block['param'] || block['arg'] || [];
+  
+      Blockly.Blocks['dynamicCreated_'+blockId] = {
+        init: function() {
+          this.appendDummyInput('').appendField(CONF_TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
+          if (param.length > 0) {
+            var paramInput = this.appendDummyInput('PARAMETERS').appendField(" ").setAlign(Blockly.ALIGN_LEFT);
+            for (var i=0; i<param.length; i++) {
+              paramInput.appendField(new Blockly.FieldTextInput(param[i]), 'VAR'+i).appendField(" ");
+            }
+          }
+          this.appendStatementInput("DO").appendField(CONF_TEXT_DO);
+          this.setInputsInline(false);
+          this.setPreviousStatement(false, null);
+          this.setNextStatement(false, null);
+          this.setColour(COLOUR_EVENT);
+        }
+      };
+    
+    // PROPERTIES
+    } else if (type == 'property') {
+      var getter = block['getter'];
+      if (getter !== true && getter !== false) {
+        getter = true;
       }
-    };
-    
-    newBlockAndWorkspace(blockId, scale, margin_left, margin_top, margin_right, margin_bottom);
-  });
-
-  // PROPERTY
-  $('div[ai2-property]').filter("[not-rendered]").each(function(){
-    $(this).removeAttr("not-rendered");
-    var block = getBlock(decodeURI($(this).attr("value")));
-    
-    var name = block['name'];
-    var getter = block['getter'];
-    if (getter !== true && getter !== false) {
-      getter = true;
+  
+      Blockly.Blocks['dynamicCreated_'+blockId] = {
+        init: function() {
+          var input;
+          if (getter) {
+            input = this.appendDummyInput();
+            this.setOutput(true, null);
+          } else {
+            input = this.appendValueInput("NAME").appendField(CONF_TEXT_SET);
+            this.setPreviousStatement(true, null);
+            this.setNextStatement(true, null);
+          }
+          input.appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "NAME")
+              .appendField(".")
+              .appendField(new Blockly.FieldDropdown([[name, "OPTIONNAME"]]), "NAME2");
+          this.setColour(getter ? COLOUR_GET : COLOUR_SET);
+        }
+      };
     }
-    var scale = block['scale'] || CONF_SCALE_LEVEL;
-    var margin_left = block['margin_left'] || block['margin'] || CONF_MARGIN_LEFT;
-    var margin_top = block['margin_top'] || block['margin'] || CONF_MARGIN_TOP;
-    var margin_right = block['margin_right'] || block['margin'] || CONF_MARGIN_RIGHT;
-    var margin_bottom = block['margin_bottom'] || block['margin'] || CONF_MARGIN_BOTTOM;
-
-    $(this).attr('id', blockId).show();
-
-    Blockly.Blocks['dynamicCreated_'+blockId] = {
-      init: function() {
-        var input;
-        if (getter) {
-          input = this.appendDummyInput();
-          this.setOutput(true, null);
-        } else {
-          input = this.appendValueInput("NAME").appendField(CONF_TEXT_SET);
-          this.setPreviousStatement(true, null);
-          this.setNextStatement(true, null);
-        }
-        input.appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "NAME")
-            .appendField(".")
-            .appendField(new Blockly.FieldDropdown([[name, "OPTIONNAME"]]), "NAME2");
-        this.setColour(getter ? COLOUR_GET : COLOUR_SET);
-        this.setTooltip('');
-        this.setHelpUrl('');
-      }
-    };
     
     newBlockAndWorkspace(blockId, scale, margin_left, margin_top, margin_right, margin_bottom);
   });

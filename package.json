@@ -70,5 +70,5 @@
         "type": "git",
         "url": "git+https://github.com/ColinTree/gitbook-plugin-ai2-blocks.git"
     },
-    "version": "0.4.1"
+    "version": "0.4.2"
 }
