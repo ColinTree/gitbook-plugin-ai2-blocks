@@ -51,6 +51,6 @@ e.g.
 {% Ai2Property %}{"name":"PropertyName2", "getter":false}{% endAi2Property %}
 ```
 
-will be converted into:
+will be converted into: (after web page loaded)
 
 ![](example.png)
