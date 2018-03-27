@@ -20,15 +20,25 @@ var blockId = 'block0';
 require(['gitbook', 'jQuery'], function(gitbook, $) {
   
   gitbook.events.bind("start", function(e, config) {
-    var conf = config || {};
+    var conf = config || {"ai2:blocks":{}};
     TEXT_WHEN = conf['ai2-blocks']['text_when'] || TEXT_WHEN;
     TEXT_DO = conf['ai2-blocks']['text_do'] || TEXT_DO;
     TEXT_CALL = conf['ai2-blocks']['text_call'] || TEXT_CALL;
     TEXT_SET = conf['ai2-blocks']['text_set'] || TEXT_SET;
     SCALE_LEVEL = conf['ai2-blocks']['scale_level'] || SCALE_LEVEL;
-    
+
+    render();
+  });
+
+  gitbook.events.bind("page.change", function() {
+    render();
+  })
+});
+
+function render() {
     // METHOD
-    $('div[ai2-method]').each(function(){
+    $('div[ai2-method]').filter("[not-rendered]").each(function(){
+      $(this).removeAttr("not-rendered");
       var block = getBlock(decodeURI($(this).attr("value")));
       
       var name = block['name'];
@@ -61,7 +71,8 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
     });
 
     // EVENT
-    $('div[ai2-event]').each(function(){
+    $('div[ai2-event]').filter("[not-rendered]").each(function(){
+      $(this).removeAttr("not-rendered");
       var block = getBlock(decodeURI($(this).attr("value")));
       
       var name = block['name'];
@@ -93,7 +104,8 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
     });
   
     // PROPERTY
-    $('div[ai2-property]').each(function(){
+    $('div[ai2-property]').filter("[not-rendered]").each(function(){
+      $(this).removeAttr("not-rendered");
       var block = getBlock(decodeURI($(this).attr("value")));
       
       var name = block['name'];
@@ -127,8 +139,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       
       newBlockAndWorkspace(blockId, scale);
     });
-  });
-});
+  }
 
 /**
  * return a required block
