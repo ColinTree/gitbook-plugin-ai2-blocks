@@ -29,9 +29,29 @@
                 "description": "text \"when\" for events",
                 "type": "string"
             },
-            "scale_level": {
-                "default": 1.0,
-                "description": "scale level for all blocks",
+            "margin": {
+                "default": 0,
+                "description": "margin of blocks, have a lower priority than specified margin parts (margin_top, ect.)",
+                "type": "number"
+            },
+            "margin_left": {
+                "default": 0,
+                "description": "left margin of a block",
+                "type": "number"
+            },
+            "margin_top": {
+                "default": 0,
+                "description": "top margin of a block",
+                "type": "number"
+            },
+            "right_margin": {
+                "default": 0,
+                "description": "right margin of a block",
+                "type": "number"
+            },
+            "margin_bottom": {
+                "default": 0,
+                "description": "bottom margin of a block",
                 "type": "number"
             }
         }
