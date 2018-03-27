@@ -57,7 +57,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(blockId, scale).moveBy(output?8:0, 0);
+      newBlockAndWorkspace(blockId, scale);
     });
 
     // EVENT
@@ -125,7 +125,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
         }
       };
       
-      newBlockAndWorkspace(blockId, scale).moveBy((getter?8:0), 0);
+      newBlockAndWorkspace(blockId, scale);
     });
   });
 });
@@ -160,12 +160,11 @@ function newBlockAndWorkspace(id, scale) {
 
   var block = workspace.newBlock('dynamicCreated_'+id);
   block.initSvg();
+  block.moveBy(8, 0);
   block.render();
 
   var metrics = workspace.getMetrics();
-  $("#"+id).height(metrics.contentHeight).width(metrics.contentWidth);
+  $("#"+id).height(metrics.contentHeight).width(metrics.contentWidth + 8);
   Blockly.svgResize(workspace);
   workspace.render();
-
-  return block;
 }
