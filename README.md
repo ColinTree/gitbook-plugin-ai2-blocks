@@ -38,13 +38,13 @@ e.g.
 # test
 ---
 
-{% Ai2Method %}{"name":"MethodName", "componentName":"compName1", "arg":["arg1","arg2"]}{% endAi2Method %}
+{% Ai2Method %}{"name":"MethodName", "componentName":"compName1", "param":["param1","param2"]}{% endAi2Method %}
 
-{% Ai2Method %}{"name":"MethodName2", "arg":["arg1","arg2"], "output":true}{% endAi2Method %}
+{% Ai2Method %}{"name":"MethodName2", "param":["param1","param2"], "output":true}{% endAi2Method %}
 
-{% Ai2Method %}{"name":"MethodName2", "arg":["arg1","arg2"], "output":true, "scale":0.9}{% endAi2Method %}
+{% Ai2Method %}{"name":"MethodName2", "param":["param1","param2"], "output":true, "scale":0.9}{% endAi2Method %}
 
-{% Ai2Event %}{"name":"EventName", "componentName":"compName2", "arg":["arg1","arg2"]}{% endAi2Event %}
+{% Ai2Event %}{"name":"EventName", "componentName":"compName2", "param":["param1","param2"]}{% endAi2Event %}
 
 {% Ai2Property %}{"name":"PropertyName", "componentName":"compName3", "getter":true}{% endAi2Property %}
 

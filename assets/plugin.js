@@ -32,7 +32,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       var block = getBlock(decodeURI($(this).attr("value")));
       
       var name = block['name'];
-      var arg = block['arg'] || [];
+      var param = block['param'] || block['arg'] || [];
       var output = block['output']===true;
       var scale = block['scale'] || SCALE_LEVEL;
 
@@ -41,8 +41,8 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       Blockly.Blocks['dynamicCreated_'+blockId] = {
         init: function() {
           this.appendDummyInput().appendField(TEXT_CALL).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), 'COMPONENT_SELECTOR').appendField('.'+name);
-          for (var i=0; i<arg.length; i++) {
-            this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(arg[i]);
+          for (var i=0; i<param.length; i++) {
+            this.appendValueInput('NAME').setAlign(Blockly.ALIGN_RIGHT).appendField(param[i]);
           }
           this.setInputsInline(false);
           if (output) {
@@ -65,7 +65,7 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       var block = getBlock(decodeURI($(this).attr("value")));
       
       var name = block['name'];
-      var arg = block['arg'] || [];
+      var param = block['param'] || block['arg'] || [];
       var scale = block['scale'] || SCALE_LEVEL;
   
       $(this).attr('id', blockId).show();
@@ -73,10 +73,10 @@ require(['gitbook', 'jQuery'], function(gitbook, $) {
       Blockly.Blocks['dynamicCreated_'+blockId] = {
         init: function() {
           this.appendDummyInput('').appendField(TEXT_WHEN).appendField(new Blockly.FieldDropdown([[ComponentName, 'OPTIONNAME']]), "COMPONENT_SELECTOR").appendField('.' + name);
-          if (arg.length > 0) {
+          if (param.length > 0) {
             var paramInput = this.appendDummyInput('PARAMETERS').appendField(" ").setAlign(Blockly.ALIGN_LEFT);
-            for (var i=0; i<arg.length; i++) {
-              paramInput.appendField(new Blockly.FieldTextInput(arg[i]), 'VAR'+i).appendField(" ");
+            for (var i=0; i<param.length; i++) {
+              paramInput.appendField(new Blockly.FieldTextInput(param[i]), 'VAR'+i).appendField(" ");
             }
           }
           this.appendStatementInput("DO").appendField(TEXT_DO);
